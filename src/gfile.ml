@@ -79,36 +79,40 @@ let export path graph =
 (* let node_id (node_name: string) -> int *)
 
 let append_item lst a = lst @ [a]
-
+(*read_ff_e est une fonction qui permet de lire une ligne dans le fichier qui commence par e (employé) et la rajoute dans liste d'employés du type problème*)
 let read_ff_e (prob :problem) line= try 
 Scanf.sscanf line " e %s "(fun name ->  { prob with employees = append_item prob.employees name});
 with e ->
  Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
  failwith "from_file"
-
+(*cette fonction est comme celle d'avant mais elle rajoute les éléments à la liste des jobs dans le type problème*)
 let read_ff_j (prob :problem) line= try 
 Scanf.sscanf line " j %s " (fun  job_name ->  { prob with jobs = append_item prob.jobs job_name} );
 with e ->
  Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
  failwith "from_file"
-
+(*elle fait pareil mais avec une liste de voeux *)
 let read_ff_v (prob :problem) line= try 
 Scanf.sscanf line " v %s %s "(fun name voeu->  { prob with voeux = append_item prob.voeux (name,voeu)});
 with e ->
  Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
  failwith "from_file"
 
+(* le fonction iter_list n'est qu'une fonction intermédiaire qui permet de parcourir une liste, et en fonction de leurs positions attributs un id aux éléments de la liste *)
 
  let rec iter_list list n i  =  match list with 
     |[] -> i
     |id:: tail -> if id=n then i else iter_list tail n (i+1)
  
+    (*cette fonction attribut aux éléments des deux listes d'employés et de jobs différents ids (elle va ensuite être utilisée dans la création du graphe )*)
  let node_id (node_name: string) (recu : problem)  = match List.exists (fun i -> i=node_name) recu.employees with 
   |true ->  iter_list recu.employees node_name 2
   |false -> let len= List.length recu.employees in 
   iter_list recu.jobs node_name (len+2)
 
 (*********crer le dictionnaire qui aura l'association entre name and id ********)
+
+(* cette fonction crér un dictionnaire avec la listé d'employés en attribuant à chaque employant un id (le premier aura l'id 2 puisque les id 0 et 1 sont déjà pris par la source et la destination)*)
 let  diction1 ( recu : problem ) =
   let rec aux liste= match liste with 
   |[] -> []
@@ -116,6 +120,7 @@ let  diction1 ( recu : problem ) =
 in 
 aux recu.employees
 
+(*pareil que diction1 mais elle le fait avec la liste des jobs *)
 let diction2 (recu : problem) = 
   let rec aux liste=match liste with 
   |[] -> []
@@ -123,12 +128,14 @@ let diction2 (recu : problem) =
 in 
 aux recu.jobs
 
+(* diction permet d'avoir la liste complète des noeuds avec leurs ids *)
 let diction prob = List.append (diction1 prob) (diction2 prob)
 
-
+(* on crée le snodes source et destination*)
 let source0 gr = (new_node gr 0)
 let dest1 gr =   (new_node gr 1)
 
+(*cette fonction sera utilisée pour lié la source avec les employés*)
 let extremite0 problem gr =
   let rec aux gr1 liste = match liste with
     |[] -> gr1
@@ -136,6 +143,7 @@ let extremite0 problem gr =
 in 
 aux gr (diction1 problem )
 
+(*cette fonction sera utilisée pour lier la source avec les jobs *)
 let extremite1 problem gr =
   let rec aux liste gr1= match liste with
     |[] -> gr1
@@ -146,6 +154,7 @@ aux (diction2 problem) gr
 
 (**********creer le graphe à partir de notre problème  **************)
 
+(*cette fonction prend un problème en entrée et crée les noeuds en fonction de ses listes *)
 let rec read_node graph prob = 
   let rec aux graph1 liste = match liste with 
 |[] -> graph1
@@ -153,7 +162,7 @@ let rec read_node graph prob =
 in 
 aux graph (diction prob)
 
-
+(*cette fonction prend un problème en entrée et crée des arcs en fonction de la liste des voeux *)
 let read_arc graph problem  =
   let rec aux graph1 liste = match liste with 
 |[] -> graph1
