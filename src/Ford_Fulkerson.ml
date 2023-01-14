@@ -1,5 +1,6 @@
 open Graph
 open Tools
+open Gfile
 
 let rec find_path gr s d acu1 li_out_arcs acu = 
   let acu = s::acu in
@@ -24,8 +25,8 @@ let rec find_flow_min gr path min = match path with
 let find_min gr path =  (* Printf.printf " : %! "  ;*) find_flow_min gr path max_int
 
 let rec print_id li_id = match li_id with
-  |[] -> Printf.printf ".\n%!"
-  |id :: tail -> Printf.printf "%d :\n %!" id ;print_id tail
+  |[] -> Printf.printf " change path \n%!"
+  |id :: tail -> Printf.printf "%d -> %!" id ;print_id tail
 
 
 let rec add_flow gr path v  = match path with 
@@ -40,7 +41,7 @@ let flow_max gr s d  =
   let rec aux path_found gr1 flow =
     print_id path_found;
     match path_found with 
-      |[]-> flow
+      |[]->"" flow
       |chem ->  let min = find_min gr1 chem in 
       let graph_aux = add_flow gr1 chem min in
         aux (path graph_aux s d) graph_aux (flow + min)

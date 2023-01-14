@@ -23,66 +23,35 @@ let () =
   (* These command-line arguments are not used for the moment. *)
   and source =int_of_string Sys.argv.(2)
   and sink= int_of_string Sys.argv.(3)
+
+  (**********Test Bipartite Matching *************)
   in 
   let problem = from_file infile in 
   let s = source0 empty_graph in
   let d = dest1 s in
   let graph1= extremite0 problem d in
   let graph2 = read_node graph1 problem in
-  Printf.printf "avant \n ";
   let graph3 = read_arc graph2 problem in 
-  Printf.printf "apres \n ";
   let graph4 = extremite1 problem graph3 in
   let flow = flow_max graph4 source sink in
   let graph = gmap graph4 string_of_int in
-  Printf.printf "%d %!\n " flow;
+  Printf.printf "Maximum number of applicants that can get job is : %d %!\n " flow;
   let () = export outfile graph in ()
 
+
+  (*********** this is a test that proves that the dictionnary created from the file does indeed contain all the nodes needed (the outcome gave 9)****************)
   (*let dic = diction problem in 
-  Printf.printf "%d %! \n " (List.length dic);
-  ()*)
-  (* Rewrite the graph that has been read. *)
-
- 
-
-  (*let loop p = match p with
-    |(x::restx, y::resty, z::restz) -> Printf.printf "%s %s %s %! \n" x y z
-    |_ -> assert false*)
+  Printf.printf "%d %! \n " (List.length dic);*)
 
 
-  (********************test Fulkerson*********)
 
-  (*let graph = from_file infile in
-  let int_graph = gmap graph int_of_string in*)
-  (*let path = path int_graph source sink in*)
-
-  (*let rec print t = match t with
-    |[] -> ()
-    |x::rest -> Printf.printf "%d " x ; print rest
-  in*)
-
-  (*let min = min_arc_path int_graph path in
-  let gr2 = iter_FF int_graph path min in
-  let gr3 = gmap gr2 string_of_int in 
-
-  let min = min_arc_path int_graph path in
-  let gr2 = iter_FF int_graph path min in
-  let gr3 = gmap gr2 string_of_int in *)
-  (*let gr3 = gmap int_graph string_of_int in*)
-  (*let flow = flow_max int_graph source sink in
+  (********************test Fulkerson flow_max *********)
+  (*in 
+  let graph = from_file infile in
+  let int_graph = gmap graph int_of_string in
+  let path = path int_graph source sink in 
+  let flow = flow_max int_graph source sink in
   let gr3 = gmap int_graph string_of_int in
-  Printf.printf "%d %!\n " flow;
-
-
+  Printf.printf "%d %!\n " flow; (*affiche le flow max *)
   (* Rewrite the graph that has been read. *)
   let () = export outfile gr3 in ()*)
-
-
-
-
-  (*and list = 
-    List.mapi (fun i _ -> 
-      (int_of_string Sys.argv.(i), List.map int_of_string (Str.split (Str.regexp " ") Sys.argv.(i+1))))( Array.to_list Sys.argv)
-    in
-     let graph = gmap  (create_node_pple list) string_of_int in 
-  let ()= export outfile graph in ()*)
