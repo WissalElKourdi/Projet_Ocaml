@@ -112,7 +112,7 @@ with e ->
 
 (*********crer le dictionnaire qui aura l'association entre name and id ********)
 
-(* cette fonction crér un dictionnaire avec la listé d'employés en attribuant à chaque employant un id (le premier aura l'id 2 puisque les id 0 et 1 sont déjà pris par la source et la destination)*)
+(* cette fonction créer un dictionnaire avec la listé d'employés en attribuant à chaque employant un id (le premier aura l'id 2 puisque les id 0 et 1 sont déjà pris par la source et la destination)*)
 let  diction1 ( recu : problem ) =
   let rec aux liste= match liste with 
   |[] -> []
