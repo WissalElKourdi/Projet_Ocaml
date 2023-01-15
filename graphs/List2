@@ -1,0 +1,44 @@
+%employees
+e wissal 
+e sirine 
+e marie 
+e ishaac
+e thomas  
+e léonie
+e massina
+
+%jobs
+
+j engineer 
+j doctor 
+j singer 
+j dancer 
+j boxer
+j trainer
+
+
+%voeux 
+v wissal dancer 
+v wissal singer 
+v wissal doctor
+v marie engineer 
+v thomas singer 
+v ishaac engineer 
+v ishaac doctor
+v ishaac singer
+v sirine singer 
+v sirine boxer
+v léonie boxer
+v léonie trainer 
+
+
+
+
+
+
+
+
+
+
+
+
